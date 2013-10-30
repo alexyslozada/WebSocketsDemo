@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mi primer socket</title>
+        <meta charset="utf-8">
+        <script>
+            //notar el protocolo.. es 'ws' y no 'http'
+            var wsUri = "ws://"+location.host+"/WebSocketsDemo/holaTodos";
+            var websocket = new WebSocket(wsUri); //creamos el socket
+            websocket.onopen = function(evt) { //manejamos los eventos...
+                log("Conectado..."); //... y aparecerá en la pantalla
+            };
+            websocket.onmessage = function(evt) { // cuando se recibe un mensaje
+                log("Mensaje recibido:" + evt.data);
+            };
+            websocket.onerror = function(evt) {
+                log("oho!.. error:" + evt.data);
+            };
+ 
+ 
+            function enviarMensaje() {
+                websocket.send(mensajeTXT.value);
+                log("Enviando:" + mensajeTXT.value);
+            }
+            function log(mensaje) { //aqui mostrará el LOG de lo que está haciendo el WebSocket
+                var logDiv = document.getElementById("log");
+                logDiv.innerHTML += (mensaje + '<br/>');
+            }
+ 
+        </script>
+    </head>
+    <body>
+        <h1>WebSocket</h1>
+        <form >
+            <label for="mensajeTXT">Mensaje:</label>
+            <input id='mensajeTXT' name='mensajeTXT'/><br/>
+            <button type="button" onclick="enviarMensaje()">Enviar</button>
+        </form>
+        <div id="log">
+ 
+        </div>
+    </body>
+</html>
